@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge" />
+
+	<style>
+		@-ms-viewport { width: device-width; }
+		@media only screen and (min-device-width: 800px) { html { overflow:hidden; } }
+		html { height:100%; }
+		body { height:100%; overflow:hidden; margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#FFFFFF; background-color:#000000; }
+		#player-image { background-image: url(skin/videointerface_playpause.png); background-position: bottom; width: 200px; height: 200px; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0; }
+		#goback { position: fixed; z-index: 2; left: 50%; margin-left:-25px; display: none; }
+	</style>
+</head>
+<body>
+
+
+<script type="text/javascript" src="viewer/modernizr.js"></script>
+<script type="text/javascript" src="viewer/embedpano.js"></script>
+
+
+<a href="javascript:history.back()" id='goback'><img src="skin/home.png" border="0" /></a>
+<div id="pano" style="width:100%;height:100%;">
+	<noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;"><td><div style="text-align:center;">ERRO:<br/><br/>Javascript não esta ativado<br/><br/></div></td></tr></table></noscript>
+
+	<script>
+
+
+		window.onload = function() 
+		{
+			// verifica velocidade de conexão
+			//var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			//if( userAgent.match( /iPhone/i ) )
+				//StartKRPano();
+			//else
+				//KrPanoReady( StartKRPano );
+
+			StartKRPano();
+		}
+
+
+		function StartKRPano()
+		{
+			// verifica qual player irá abrir e como - se fullscreen, se via YT
+			/*if( getMobileOperatingSystem()=="Android" || !Modernizr.webgl ) 
+			{
+				//document.getElementById('pano').innerHTML = "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/6Pls19NUY44' frameborder='0' allowfullscreen></iframe>";
+				var _queryString = window.location.search;
+				var yt_link = _queryString.split("?yt=")[1];
+				document.getElementById('pano').innerHTML = "<a href='" + yt_link + "' target='_top' ><div id='player-image'></div>" + 
+																					"<span style='  position: absolute; width:100%; bottom: 20%; text-align: center; color: white; text-shadow: 2px 1px 1px #000000; font-size: 21px;'>Para acessar o vídeo 360 graus você precisa ter o APP do YouTube instalado em seu celular</span>" +
+																					"<img height='100%' src='video.jpg' border='0' /></a>";
+			}
+			else if( getMobileOperatingSystem()!="unknown" && window.screen.width <= 800 && window.location.href.split('?')[0] != document.referrer )
+			{
+				//alert( document.referrer );
+				window.open(window.location.href.split('?')[0], "_top");
+			}
+			else 
+			{
+				*/
+				embedpano({swf:"viewer/krpano.swf", wmode:"opaque", xml:"video.xml?v=" + Math.random(), target:"pano", html5:(document.domain ? "prefer" : "auto"), passQueryParameters:true/*, onready:LoadKRPanoVideo*/ });
+			/*}
+			
+
+			// verifica se esta fullscreen, se estiver então cria um botão pra voltar
+			if( window.location.href.split('?')[0] == document.referrer ) {
+				document.getElementById('goback').style.display = "block";
+			}
+			*/
+		}
+
+
+
+		function getMobileOperatingSystem() {
+			var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			if( userAgent.match( /iPad/i ) || userAgent.match( /iPhone/i ) || userAgent.match( /iPod/i ) ) { return 'iOS'; }
+			else if( userAgent.match( /Android/i ) ) { return 'Android'; }
+			else { return 'unknown'; }
+		}
+
+		function sharePage() 
+		{
+			var _url = document.referrer.toString();
+			if( !_url ) _url = window.location.href.toString();
+			window.open("https://www.facebook.com/sharer/sharer.php?u=" + _url, "_blank");
+		}
+	</script>
+</div>
+
+</body>
+</html>

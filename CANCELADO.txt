@@ -1,0 +1,2 @@
+O projeto não funcionou em Android, o vídeo não carregava apesar de toda estrutura HTML estar ok.
+Não tinha nenhuma referencia na internet sobre como resolver esse problema

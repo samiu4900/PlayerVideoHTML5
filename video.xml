@@ -1,0 +1,97 @@
+<krpano version="1.19" bgcolor="0x000000">
+
+	<!-- the videoplayer interface skin -->
+	<include url="skin/videointerface.xml?v=0" />
+
+	
+
+	<!-- include the videoplayer plugin and load the video (use a low res video for iOS) -->
+	<plugin name="video"
+	        url.html5="%SWFPATH%/plugins/videoplayer.js"
+
+	        posterurl="video.jpg"
+			videourl="baixa.ogv|baixa.webm|video_iphone_sound.mp3"	
+			
+	        pausedonstart="true"
+	        loop="true"
+	        enabled="false"
+	        zorder="0"
+	        align="center" ox="0" oy="0"
+
+	        width.no-panovideosupport="100%"
+	        height.no-panovideosupport="prop"
+
+	        onloaded="videointerface_setup_interface(get(name)); setup_video_controls();"
+	        onvideoready="videointerface_videoready();"
+	/>
+
+
+	<!-- custom control setup - add items for selecting videos with a different resolution/quality -->
+	<action name="setup_video_controls">
+		<!-- select/mark the current video (see the initial videourl attribute) -->
+		
+		if(device.ios,
+		
+			<!-- videointerface_selectmenuitem(configmenu, q1); -->
+			<!-- https://www.youtube.com/watch?v=QLOY6s53-5k -->
+		,
+			<!-- add  items to the control menu of the videointerface skin -->
+			<!--
+			videointerface_addmenuitem(configmenu, vqtitle, 'Qualidade do Vídeo', true, videointerface_toggle_configmenu() );
+			videointerface_addmenuitem(configmenu, q1, 'Baixa',  false, change_video_file(q1, 'baixa.mp4|baixa.webm'); );
+			videointerface_addmenuitem(configmenu, q2, 'Média',  false, change_video_file(q2, 'media.mp4|media.webm'); );
+			videointerface_addmenuitem(configmenu, q3, 'Alta',  false, change_video_file(q3, 'alta.mp4|alta.webm'); );
+			-->
+		);
+
+		<!-- js(LoadKRPanoVideo()); -->
+
+		
+
+	</action>
+			
+
+	<!-- change the video file, but try keeping the same playback position -->
+	<action name="change_video_file">
+		<!--
+		set(caminho_video, '%CURRENTXML%/%2');
+		plugin[video].playvideo('%CURRENTXML%/%2', null, get(plugin[video].ispaused), get(plugin[video].time));
+		videointerface_deselectmenuitem(configmenu, q1);
+		videointerface_deselectmenuitem(configmenu, q2);
+		videointerface_deselectmenuitem(configmenu, q3);
+		videointerface_selectmenuitem(configmenu, %1);
+		-->
+	</action>
+
+
+
+	<action name="exit_tutorial">
+		set(layer[tampone].visible, false);
+		set(layer[tampone].enabled, false);
+		plugin[video].playvideo(get(caminho_video), null, false), get(plugin[video].time));
+	</action>
+
+	<action name="show_tutorial">
+		set(layer[tampone].visible, true);
+		set(layer[tampone].enabled, true);
+	</action>
+
+
+	<!-- the panoramic video image -->
+	<image devices="panovideosupport">
+		<sphere url="plugin:video" />
+	</image>
+
+
+	<!-- Insert logo -->
+	<layer name="share" url="skin/facebook.png" align="leftttop" x="10" y="10" scale.no-mobile="0.5" scale.mobile="0.25" onclick="js(sharePage());"/>
+	<layer name="logo" url="skin/logo.png" align="rightttop" x="10" y="10" scale.no-mobile="0.6" scale.mobile="0.25" onclick="openurl('http://www.casamais360.com.br/', _blank);"/>
+
+	
+	<layer name="tampone" url="skin/tampone.png" align="middlecenter" x="0" y="0" scale.no-mobile="1.0" scale.mobile="0.5" onclick="exit_tutorial();" onloaded="if(device.mobile OR device.tablet, set(layer[tampone].url, 'skin/tampone_mobile.png'));" />
+
+
+	<!-- set the default view - a light fisheye projection -->
+	<view hlookat="0" vlookat="0" fovtype="DFOV" fov="130" fovmin="75" fovmax="150" fisheye="0.35" />
+
+</krpano>
